@@ -1,0 +1,105 @@
+{
+  "name": "syoku_shindan",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "app",
+  "workspaceFolder": "/app",
+  "memoryLimit": "4GB",
+  "features": {
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+  },
+  "remoteEnv": {
+    "NODE_ENV": "development",
+    "CHOKIDAR_USEPOLLING": "true"
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "extensions.verifySignature": false,
+        
+        // TypeScript全般設定
+        "typescript.preferences.includePackageJsonAutoImports": "auto",
+        "typescript.suggest.autoImports": true,
+        "typescript.updateImportsOnFileMove.enabled": "always",
+        
+        // 言語別設定
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": "explicit",
+            "source.organizeImports": "explicit"
+          }
+        },
+        
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": "explicit",
+            "source.organizeImports": "explicit"
+          }
+        },
+        
+        "[json]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnSave": true
+        },
+        
+        // ESLint設定
+        "eslint.validate": ["typescript", "typescriptreact"],
+        "eslint.format.enable": true,
+        
+        // Emmet設定
+        "emmet.includeLanguages": {
+          "typescript": "html",
+          "typescriptreact": "html"
+        },
+        "emmet.triggerExpansionOnTab": true,
+        
+        // ファイル管理
+        "files.exclude": {
+          "**/node_modules": true,
+          "**/.git": true,
+          "**/.DS_Store": true,
+          "**/dist": true,
+          "**/build": true
+        }
+      },
+      "extensions": [
+        "ms-vscode.vscode-typescript-next",
+        "bradlc.vscode-tailwindcss", 
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "formulahendry.auto-rename-tag",
+        "christian-kohler.path-intellisense",
+        "ms-vscode.vscode-json",
+        "saoudrizwan.claude-dev",
+        "streetsidesoftware.code-spell-checker",
+        "mhutchie.git-graph",
+        "eamodio.gitlens",
+        "oderwat.indent-rainbow",
+        "humao.rest-client",
+        "shardulm94.trailing-spaces",
+        "spmeesseman.vscode-taskexplorer",
+        "ms-vscode.live-server",
+        "yoavbls.pretty-ts-errors",
+        "vscode-icons-team.vscode-icons",
+        "ms-vscode.vscode-js-debug",
+        "firefox-devtools.vscode-firefox-debug"
+      ]
+    }
+  },
+  "postCreateCommand": "npm install",
+  "forwardPorts": [5173, 3000],
+  "portsAttributes": {
+    "5173": {
+      "label": "Vite Dev Server",
+      "onAutoForward": "notify"
+    },
+    "3000": {
+      "label": "Preview Server",
+      "onAutoForward": "notify"
+    }
+  },
+  "shutdownAction": "stopCompose"
+}
