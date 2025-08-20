@@ -1,27 +1,102 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Button from "../../components/Button";
+import QuestionCard from "../../components/QuestionCard";
+import ResultCard from "../../components/ResultCard";
+import TitleAnimation from "../../components/TitleAnimation";
+import type { Answer } from "../../utils/diagnosisEvaluator";
+import { evaluateDiagnosis } from "../../utils/diagnosisEvaluator";
+import { getQuestionChoices } from "../../utils/questionChoice";
 
 export default function HomePage() {
-  const [visibleImages, setVisibleImages] = useState<number[]>([]);
   const [showText, setShowText] = useState(false);
   const [showButton, setShowButton] = useState(false);
+  const [showDiagnosis, setShowDiagnosis] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [answers, setAnswers] = useState<Answer[]>([]);
+  const [showResult, setShowResult] = useState(false);
+  const [questions, setQuestions] = useState(() => getQuestionChoices());
 
-  useEffect(() => {
-    const timeouts = [
-      setTimeout(() => setVisibleImages((prev) => [...prev, 0]), 800),
-      setTimeout(() => setVisibleImages((prev) => [...prev, 1]), 1600),
-      setTimeout(() => setVisibleImages((prev) => [...prev, 2]), 2400),
-      setTimeout(() => setShowText(true), 2700),
-      setTimeout(() => setShowButton(true), 2800),
-    ];
+  // タイトルアニメーション完了時の処理
+  const handleAnimationComplete = () => {
+    setShowText(true);
+    setTimeout(() => setShowButton(true), 100);
+  };
 
-    return () => timeouts.forEach((timeout) => clearTimeout(timeout));
-  }, []);
+  // 診断開始ボタンのクリックハンドラー
+  const handleStartDiagnosis = () => {
+    setShowDiagnosis(true);
+  };
 
-  const images = [
-    { src: "/images/title-syoku.png", alt: "食" },
-    { src: "/images/title-shin.png", alt: "診" },
-    { src: "/images/title-dan.png", alt: "断" },
-  ];
+  // 診断のリセット処理
+  const resetDiagnosis = () => {
+    setShowDiagnosis(false);
+    setShowResult(false);
+    setCurrentQuestion(0);
+    setAnswers([]);
+    setQuestions(getQuestionChoices());
+    setShowText(false);
+    setShowButton(false);
+  };
+
+  // 診断セクションの描画管理
+  const renderDiagnosisSection = () => {
+    // 診断が開始されていない場合はボタンを表示
+    if (!showDiagnosis) {
+      return (
+        <div className="h-16 flex items-center justify-center">
+          {showButton && (
+            <Button
+              onClick={handleStartDiagnosis}
+              variant="primary"
+              size="lg"
+              className="transition-all duration-700 opacity-100 translate-y-0"
+            >
+              診断を始める
+            </Button>
+          )}
+        </div>
+      );
+    }
+
+    // 診断が完了した場合は結果カードを表示
+    if (showResult) {
+      return (
+        <ResultCard
+          result={evaluateDiagnosis(answers)}
+          onRetry={resetDiagnosis}
+        />
+      );
+    }
+
+    // 診断が進行中の場合は質問カードを表示
+    return (
+      <QuestionCard
+        question={questions[currentQuestion]}
+        currentQuestion={currentQuestion}
+        totalQuestions={questions.length}
+        onAnswer={handleAnswer}
+      />
+    );
+  };
+
+  // 1つずつの回答処理
+  const handleAnswer = (answer: boolean) => {
+    const currentQuestionData = questions[currentQuestion];
+    const newAnswer: Answer = {
+      value: answer,
+      specialResult: currentQuestionData.specialResult,
+      specialResultMsg: currentQuestionData.specialResultMsg,
+      points: currentQuestionData.points,
+    };
+    const newAnswers = [...answers, newAnswer];
+    setAnswers(newAnswers);
+
+    if (currentQuestion + 1 < questions.length) {
+      setCurrentQuestion(currentQuestion + 1);
+    } else {
+      setShowResult(true);
+    }
+  };
 
   return (
     <div
@@ -33,47 +108,27 @@ export default function HomePage() {
 
       {/* タイトル */}
       <div className="relative text-center text-brown-800 px-4 max-w-4xl">
-        <div className="flex flex-col items-center drop-shadow-lg">
-          {images.map((image, index) => (
-            <img
-              key={index}
-              src={image.src}
-              alt={image.alt}
-              className={`w-20 h-20 md:w-50 md:h-50 transition-all duration-300 ${
-                visibleImages.includes(index) ? "opacity-100" : "opacity-0"
-              }`}
-              style={{
-                transitionTimingFunction: visibleImages.includes(index)
-                  ? "cubic-bezier(0.68, -0.55, 0.265, 1.55)"
-                  : "ease-out",
-                transform: visibleImages.includes(index)
-                  ? `scale(1.1) rotate(0deg)`
-                  : `scale(2.5) rotate(-20deg) translateY(-100px)`,
-                filter: visibleImages.includes(index)
-                  ? "drop-shadow(2px 4px 8px rgba(0,0,0,0.3))"
-                  : "none",
-              }}
-            />
-          ))}
-        </div>
+        {!showResult && (
+          <>
+            <TitleAnimation onAnimationComplete={handleAnimationComplete} />
 
-        <p
-          className={`text-xl md:text-2xl mb-8 font-bold max-w-2xl mx-auto transition-all duration-1000 ${
-            showText ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
-          生きるために食べるのか
-          <br />
-          食べるために生きるのか
-        </p>
+            {!showDiagnosis && (
+              <p
+                className={`text-xl md:text-2xl mb-8 font-bold max-w-2xl mx-auto transition-all duration-1000 h-20 flex items-center justify-center ${
+                  showText
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
+                }`}
+              >
+                生きるために食べるのか
+                <br />
+                食べるために生きるのか
+              </p>
+            )}
+          </>
+        )}
 
-        <button
-          className={`bg-brown-800 hover:bg-brown-800/90 hover:scale-105 hover:shadow-xl text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 shadow-lg cursor-pointer ${
-            showButton ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
-          診断を始める
-        </button>
+        {renderDiagnosisSection()}
       </div>
     </div>
   );
