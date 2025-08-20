@@ -12,7 +12,7 @@ interface ResultCardProps {
 }
 
 const shareToX = (result: DiagnosisResult) => {
-  const text = `食診断の結果は「${result.title}」でした！\n\n${result.description}\n\n#食診断`;
+  const text = `食診断の結果は「${result.title}」でした！\n${result.description}\n\n#食診断`;
   const url = window.location.href;
   const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
     text
@@ -73,7 +73,6 @@ export default function ResultCard({ result, onRetry }: ResultCardProps) {
           {result.title}
         </h3>
       </div>
-
 
       {/* 説明文 */}
       <div

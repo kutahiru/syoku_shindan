@@ -14,6 +14,7 @@ export default function HomePage() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [showResult, setShowResult] = useState(false);
+  const [showResultImage, setShowResultImage] = useState(false);
   const [questions, setQuestions] = useState(() => getQuestionChoices());
 
   // タイトルアニメーション完了時の処理
@@ -31,6 +32,7 @@ export default function HomePage() {
   const resetDiagnosis = () => {
     setShowDiagnosis(false);
     setShowResult(false);
+    setShowResultImage(false);
     setCurrentQuestion(0);
     setAnswers([]);
     setQuestions(getQuestionChoices());
@@ -70,7 +72,20 @@ export default function HomePage() {
                 <img
                   src={`/images/${result.image}`}
                   alt="診断結果イメージ"
-                  className="scale-120 mb-8"
+                  className={`mb-8 transition-all duration-700 ${
+                    showResultImage ? "opacity-100" : "opacity-0"
+                  }`}
+                  style={{
+                    transitionTimingFunction: showResultImage
+                      ? "cubic-bezier(0.68, -0.55, 0.265, 1.55)"
+                      : "ease-out",
+                    transform: showResultImage
+                      ? "scale(1.2) rotate(0deg)"
+                      : "scale(2.5) rotate(-20deg) translateY(-100px)",
+                    filter: showResultImage
+                      ? "drop-shadow(2px 4px 8px rgba(0,0,0,0.3))"
+                      : "none",
+                  }}
                 />
                 <ResultCard result={result} onRetry={resetDiagnosis} />
               </>
@@ -108,6 +123,8 @@ export default function HomePage() {
       setCurrentQuestion(currentQuestion + 1);
     } else {
       setShowResult(true);
+      // 結果画像のアニメーション開始
+      setTimeout(() => setShowResultImage(true), 300);
     }
   };
 
