@@ -4,12 +4,14 @@ export interface Answer {
   specialResult: string; // 特別結果（文字列）
   specialResultMsg: string; // 特別結果のメッセージ
   points: number; // ポイント数
+  image: string; // 画像ファイル名
 }
 
 // 診断結果を格納
 export interface DiagnosisResult {
   title: string;
   description: string;
+  image: string;
 }
 
 // 診断を評価する関数
@@ -24,6 +26,7 @@ export function evaluateDiagnosis(answers: Answer[]): DiagnosisResult {
     return {
       title: specialResults[0].specialResult,
       description: specialResults[0].specialResultMsg,
+      image: specialResults[0].image,
     };
   }
 
@@ -37,21 +40,25 @@ export function evaluateDiagnosis(answers: Answer[]): DiagnosisResult {
     return {
       title: "食べるために生きる人",
       description: "美味しい食事を求めて今日も旅は続く。",
+      image: "taberu.png",
     };
   } else if (totalPoints >= 7) {
     return {
       title: "食べるために生きる人",
       description: "食事が楽しみ。一日三回の小さな幸せ。",
+      image: "taberu.png",
     };
   } else if (totalPoints >= 2) {
     return {
       title: "生きるために食べる人",
       description: "食べることは生きること。それ以上でもそれ以下でもない。",
+      image: "ikiru.png",
     };
   } else {
     return {
       title: "生きるために食べる人",
       description: "食事は栄養補給。効率よく、健康に。",
+      image: "ikiru.png",
     };
   }
 }

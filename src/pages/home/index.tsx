@@ -61,10 +61,22 @@ export default function HomePage() {
     // 診断が完了した場合は結果カードを表示
     if (showResult) {
       return (
-        <ResultCard
-          result={evaluateDiagnosis(answers)}
-          onRetry={resetDiagnosis}
-        />
+        <div className="flex flex-col items-center">
+          {(() => {
+            const result = evaluateDiagnosis(answers);
+            return (
+              <>
+                {/* 診断結果に応じた画像 - カードの上に表示 */}
+                <img
+                  src={`/images/${result.image}`}
+                  alt="診断結果イメージ"
+                  className="scale-120 mb-8"
+                />
+                <ResultCard result={result} onRetry={resetDiagnosis} />
+              </>
+            );
+          })()}
+        </div>
       );
     }
 
@@ -87,6 +99,7 @@ export default function HomePage() {
       specialResult: currentQuestionData.specialResult,
       specialResultMsg: currentQuestionData.specialResultMsg,
       points: currentQuestionData.points,
+      image: currentQuestionData.image,
     };
     const newAnswers = [...answers, newAnswer];
     setAnswers(newAnswers);

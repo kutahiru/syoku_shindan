@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Button from "./Button";
 
 interface DiagnosisResult {
@@ -14,8 +14,10 @@ interface ResultCardProps {
 const shareToX = (result: DiagnosisResult) => {
   const text = `食診断の結果は「${result.title}」でした！\n\n${result.description}\n\n#食診断`;
   const url = window.location.href;
-  const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-  window.open(shareUrl, '_blank', 'width=550,height=420');
+  const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+    text
+  )}&url=${encodeURIComponent(url)}`;
+  window.open(shareUrl, "_blank", "width=550,height=420");
 };
 
 export default function ResultCard({ result, onRetry }: ResultCardProps) {
@@ -41,14 +43,12 @@ export default function ResultCard({ result, onRetry }: ResultCardProps) {
   return (
     <div
       className={`relative bg-white/95 backdrop-blur-sm rounded-lg p-10 max-w-2xl mx-auto shadow-lg text-center border border-stone-200 transform transition-all duration-1000 ease-out ${
-        showCard
-          ? "opacity-100 translate-y-0"
-          : "opacity-0 translate-y-8"
+        showCard ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
     >
       {/* 和風装飾枠 */}
       <div className="absolute inset-2 border border-stone-300/50 rounded-md"></div>
-      
+
       {/* 角の装飾 */}
       <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-stone-400/60"></div>
       <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-stone-400/60"></div>
@@ -66,15 +66,14 @@ export default function ResultCard({ result, onRetry }: ResultCardProps) {
       {/* タイトル */}
       <div
         className={`transform transition-all duration-1000 ease-out ${
-          showTitle
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-6"
+          showTitle ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
         }`}
       >
         <h3 className="text-3xl font-bold text-stone-800 mb-6 tracking-wide leading-relaxed">
           {result.title}
         </h3>
       </div>
+
 
       {/* 説明文 */}
       <div
@@ -84,33 +83,29 @@ export default function ResultCard({ result, onRetry }: ResultCardProps) {
             : "opacity-0 translate-y-6"
         }`}
       >
-        <div className="relative mb-8 p-6 bg-stone-50/80 rounded border-l-4 border-stone-400">
-          <p className="text-lg text-stone-700 leading-relaxed font-medium">
-            {result.description}
-          </p>
-        </div>
+        <p className="text-lg text-stone-700 leading-relaxed font-medium mb-8">
+          {result.description}
+        </p>
       </div>
 
       {/* ボタン */}
       <div
         className={`transform transition-all duration-1000 ease-out ${
-          showButton
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-6"
+          showButton ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
         }`}
       >
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button 
+          <Button
             onClick={() => shareToX(result)}
-            variant="primary" 
+            variant="primary"
             size="md"
             className="relative transition-all duration-300 hover:shadow-md bg-black hover:bg-gray-800 text-white"
           >
             Xに投稿する
           </Button>
-          <Button 
-            onClick={onRetry} 
-            variant="primary" 
+          <Button
+            onClick={onRetry}
+            variant="primary"
             size="md"
             className="relative transition-all duration-300 hover:shadow-md bg-stone-500 hover:bg-stone-600 text-white"
           >

@@ -11,6 +11,7 @@ export interface QuestionChoice {
   specialResultMsg: string;
   points: number;
   question: string;
+  image: string;
 }
 
 // 質問一覧を取得
@@ -34,5 +35,6 @@ export function getRandomQuestions(
     specialResultMsg: question.specialResultMsg,
     points: question.points,
     question: question.question,
+    image: question.image,
   }));
 }
