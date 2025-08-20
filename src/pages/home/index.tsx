@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Button from "../../components/Button";
 import QuestionCard from "../../components/QuestionCard";
 import ResultCard from "../../components/ResultCard";
@@ -25,7 +26,14 @@ export default function HomePage() {
 
   // 診断開始ボタンのクリックハンドラー
   const handleStartDiagnosis = () => {
-    setShowDiagnosis(true);
+    // ボタンとテキストをフェードアウト
+    setShowButton(false);
+    setShowText(false);
+    
+    // 少し遅延してから診断画面を表示
+    setTimeout(() => {
+      setShowDiagnosis(true);
+    }, 400);
   };
 
   // 診断のリセット処理
@@ -46,16 +54,28 @@ export default function HomePage() {
     if (!showDiagnosis) {
       return (
         <div className="h-16 flex items-center justify-center">
-          {showButton && (
-            <Button
-              onClick={handleStartDiagnosis}
-              variant="primary"
-              size="lg"
-              className="transition-all duration-700 opacity-100 translate-y-0"
-            >
-              診断を始める
-            </Button>
-          )}
+          <AnimatePresence>
+            {showButton && (
+              <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 20,
+                }}
+              >
+                <Button
+                  onClick={handleStartDiagnosis}
+                  variant="primary"
+                  size="lg"
+                >
+                  診断を始める
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       );
     }
