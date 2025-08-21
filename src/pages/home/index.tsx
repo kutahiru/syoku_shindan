@@ -178,8 +178,8 @@ export default function HomePage() {
                       ? "cubic-bezier(0.68, -0.55, 0.265, 1.55)"
                       : "ease-out",
                     transform: showResultImage
-                      ? "scale(1) sm:scale(1.1) md:scale(1.2) rotate(0deg)"
-                      : "scale(1.5) sm:scale(2) md:scale(2.5) rotate(-20deg) translateY(-50px) sm:translateY(-75px) md:translateY(-100px)",
+                      ? "scale(1.2) rotate(0deg)"
+                      : "scale(2.5) rotate(-20deg) translateY(-100px)",
                     filter: showResultImage
                       ? "drop-shadow(2px 4px 8px rgba(0,0,0,0.3))"
                       : "none",
