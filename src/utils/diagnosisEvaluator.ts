@@ -42,13 +42,25 @@ export function evaluateDiagnosis(answers: Answer[]): DiagnosisResult {
       description: "食の求道者。美味しい食事を求めて今日も旅は続く。",
       image: "taberu.png",
     };
-  } else if (totalPoints >= 6) {
+  } else if (totalPoints >= 8) {
     return {
       title: "食べるために生きる人",
+      description: "食事こそが人生最大の喜び。今日は何を食べようかな？",
+      image: "taberu.png",
+    };
+  } else if (totalPoints >= 6) {
+    return {
+      title: "やや食べるために生きる人",
       description: "食事が楽しみ。一日三回の小さな幸せ。",
       image: "taberu.png",
     };
-  } else if (totalPoints >= 2) {
+  } else if (totalPoints >= 3) {
+    return {
+      title: "やや生きるために食べる人",
+      description: "健康を意識しつつも、たまには美味しいものも食べたい。",
+      image: "ikiru.png",
+    };
+  } else if (totalPoints >= 1) {
     return {
       title: "生きるために食べる人",
       description: "食べることは生きること。それ以上でもそれ以下でもない。",
@@ -57,7 +69,7 @@ export function evaluateDiagnosis(answers: Answer[]): DiagnosisResult {
   } else {
     return {
       title: "真・生きるために食べる人",
-      description: "食事は栄養補給。効率よく、健康に。",
+      description: "食事は栄養補給。栄養以外はどうでもいい。",
       image: "ikiru.png",
     };
   }
