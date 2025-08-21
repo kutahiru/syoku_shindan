@@ -42,7 +42,7 @@ export default function ResultCard({ result, onRetry }: ResultCardProps) {
 
   return (
     <div
-      className={`relative bg-white/95 backdrop-blur-sm rounded-lg p-10 max-w-2xl mx-auto shadow-lg text-center border border-stone-200 transform transition-all duration-1000 ease-out ${
+      className={`relative bg-white/95 backdrop-blur-sm rounded-lg p-4 sm:p-6 md:p-8 lg:p-10 max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl mx-auto shadow-lg text-center border border-stone-200 transform transition-all duration-1000 ease-out ${
         showCard ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
     >
@@ -56,8 +56,8 @@ export default function ResultCard({ result, onRetry }: ResultCardProps) {
       <div className="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-stone-400/60"></div>
 
       {/* 診断結果ヘッダー */}
-      <div className="relative mb-8">
-        <h2 className="text-2xl font-semibold text-stone-800 tracking-wide">
+      <div className="relative mb-4 sm:mb-6 md:mb-8">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-stone-800 tracking-wide">
           診断結果
         </h2>
         <div className="mt-2 w-16 h-0.5 bg-stone-400 mx-auto"></div>
@@ -69,7 +69,7 @@ export default function ResultCard({ result, onRetry }: ResultCardProps) {
           showTitle ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
         }`}
       >
-        <h3 className="text-3xl font-bold text-stone-800 mb-6 tracking-wide leading-relaxed">
+        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-stone-800 mb-4 sm:mb-5 md:mb-6 tracking-wide leading-relaxed">
           {result.title}
         </h3>
       </div>
@@ -82,7 +82,7 @@ export default function ResultCard({ result, onRetry }: ResultCardProps) {
             : "opacity-0 translate-y-6"
         }`}
       >
-        <p className="text-lg text-stone-700 leading-relaxed font-medium mb-8">
+        <p className="text-sm sm:text-base md:text-lg text-stone-700 leading-relaxed font-medium mb-4 sm:mb-6 md:mb-8 px-2 sm:px-0">
           {result.description}
         </p>
       </div>

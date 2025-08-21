@@ -74,7 +74,7 @@ export default function HomePage() {
     {
       id: "oni5",
       top: "50%",
-      left: "65%",
+      left: "70%",
       delay: 1.5,
       size: "w-24 h-24 md:w-32 md:h-32",
       imageIndex: 0,
@@ -170,7 +170,7 @@ export default function HomePage() {
                 <img
                   src={`/images/${result.image}`}
                   alt="診断結果イメージ"
-                  className={`mb-8 transition-all duration-700 ${
+                  className={`w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg h-auto mb-4 sm:mb-6 md:mb-8 transition-all duration-700 ${
                     showResultImage ? "opacity-100" : "opacity-0"
                   }`}
                   style={{
@@ -178,8 +178,8 @@ export default function HomePage() {
                       ? "cubic-bezier(0.68, -0.55, 0.265, 1.55)"
                       : "ease-out",
                     transform: showResultImage
-                      ? "scale(1.2) rotate(0deg)"
-                      : "scale(2.5) rotate(-20deg) translateY(-100px)",
+                      ? "scale(1) sm:scale(1.1) md:scale(1.2) rotate(0deg)"
+                      : "scale(1.5) sm:scale(2) md:scale(2.5) rotate(-20deg) translateY(-50px) sm:translateY(-75px) md:translateY(-100px)",
                     filter: showResultImage
                       ? "drop-shadow(2px 4px 8px rgba(0,0,0,0.3))"
                       : "none",
@@ -261,20 +261,40 @@ export default function HomePage() {
             }}
             transition={{
               opacity: { duration: 0.6, delay: oni.delay },
-              scale: { duration: 0.8, delay: oni.delay, type: "spring", stiffness: 200 },
-              y: { duration: 4 + index * 0.5, repeat: Infinity, ease: "easeInOut", delay: oni.delay + 1 },
-              x: { duration: 4 + index * 0.5, repeat: Infinity, ease: "easeInOut", delay: oni.delay + 1 },
-              rotate: { duration: 4 + index * 0.5, repeat: Infinity, ease: "easeInOut", delay: oni.delay + 1 },
+              scale: {
+                duration: 0.8,
+                delay: oni.delay,
+                type: "spring",
+                stiffness: 200,
+              },
+              y: {
+                duration: 4 + index * 0.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: oni.delay + 1,
+              },
+              x: {
+                duration: 4 + index * 0.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: oni.delay + 1,
+              },
+              rotate: {
+                duration: 4 + index * 0.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: oni.delay + 1,
+              },
             }}
             onClick={() => handleOniClick(oni.id)}
-            whileHover={{ 
-              scale: 1.2, 
+            whileHover={{
+              scale: 1.2,
               opacity: 0.8,
-              transition: { duration: 0.2 }
+              transition: { duration: 0.2 },
             }}
-            whileTap={{ 
+            whileTap={{
               scale: 0.9,
-              transition: { duration: 0.1 }
+              transition: { duration: 0.1 },
             }}
           />
         ))}
