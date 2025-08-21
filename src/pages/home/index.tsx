@@ -170,7 +170,7 @@ export default function HomePage() {
                 <img
                   src={`/images/${result.image}`}
                   alt="診断結果イメージ"
-                  className={`w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg h-auto mb-4 sm:mb-6 md:mb-8 transition-all duration-700 ${
+                  className={`w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl h-auto mb-4 sm:mb-6 md:mb-8 transition-all duration-700 ${
                     showResultImage ? "opacity-100" : "opacity-0"
                   }`}
                   style={{
