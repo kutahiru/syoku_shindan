@@ -1,5 +1,5 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import Button from "../../components/Button";
 import QuestionCard from "../../components/QuestionCard";
 import ResultCard from "../../components/ResultCard";
@@ -17,6 +17,72 @@ export default function HomePage() {
   const [showResult, setShowResult] = useState(false);
   const [showResultImage, setShowResultImage] = useState(false);
   const [questions, setQuestions] = useState(() => getQuestionChoices());
+  // おにぎりインスタンスの型定義
+  interface OniInstance {
+    id: string;
+    top: string;
+    left?: string;
+    right?: string;
+    delay: number;
+    size: string;
+    imageIndex: number;
+  }
+
+  // おにぎり画像一覧
+  const oniImages = [
+    "/images/oni.png",
+    "/images/oniebi.png",
+    "/images/oniikura.png",
+    "/images/onimame.png",
+    "/images/onitamago.png",
+  ];
+
+  // 初期おにぎりインスタンス
+  const initialOniInstances: OniInstance[] = [
+    {
+      id: "oni1",
+      top: "10%",
+      left: "20%",
+      delay: 0,
+      size: "w-20 h-20 md:w-28 md:h-28",
+      imageIndex: 0,
+    },
+    {
+      id: "oni2",
+      top: "20%",
+      right: "5%",
+      delay: 1,
+      size: "w-16 h-16 md:w-24 md:h-24",
+      imageIndex: 0,
+    },
+    {
+      id: "oni3",
+      top: "70%",
+      left: "15%",
+      delay: 2,
+      size: "w-18 h-18 md:w-26 md:h-26",
+      imageIndex: 0,
+    },
+    {
+      id: "oni4",
+      top: "80%",
+      right: "8%",
+      delay: 0.5,
+      size: "w-14 h-14 md:w-20 md:h-20",
+      imageIndex: 0,
+    },
+    {
+      id: "oni5",
+      top: "50%",
+      left: "65%",
+      delay: 1.5,
+      size: "w-24 h-24 md:w-32 md:h-32",
+      imageIndex: 0,
+    },
+  ];
+
+  const [oniInstances, setOniInstances] =
+    useState<OniInstance[]>(initialOniInstances);
 
   // タイトルアニメーション完了時の処理
   const handleAnimationComplete = () => {
@@ -29,11 +95,22 @@ export default function HomePage() {
     // ボタンとテキストをフェードアウト
     setShowButton(false);
     setShowText(false);
-    
+
     // 少し遅延してから診断画面を表示
     setTimeout(() => {
       setShowDiagnosis(true);
     }, 400);
+  };
+
+  // おにぎりクリック処理
+  const handleOniClick = (id: string) => {
+    setOniInstances((prev) =>
+      prev.map((oni) =>
+        oni.id === id
+          ? { ...oni, imageIndex: (oni.imageIndex + 1) % oniImages.length }
+          : oni
+      )
+    );
   };
 
   // 診断のリセット処理
@@ -46,6 +123,7 @@ export default function HomePage() {
     setQuestions(getQuestionChoices());
     setShowText(false);
     setShowButton(false);
+    setOniInstances(initialOniInstances);
   };
 
   // 診断セクションの描画管理
@@ -155,6 +233,51 @@ export default function HomePage() {
     >
       {/* オーバーレイ */}
       <div className="absolute inset-0 bg-black/5"></div>
+
+      {(showText || showResult) &&
+        oniInstances.map((oni, index) => (
+          <motion.img
+            key={oni.id}
+            src={oniImages[oni.imageIndex]}
+            alt="おにぎり"
+            className={`absolute ${oni.size} cursor-pointer z-10 opacity-60 hover:opacity-80`}
+            style={{
+              top: oni.top,
+              left: oni.left,
+              right: oni.right,
+            }}
+            initial={{
+              opacity: 0,
+              scale: 0,
+              y: -50,
+              rotate: -180,
+            }}
+            animate={{
+              opacity: 0.6,
+              scale: 1,
+              y: [-15, 15, -15],
+              x: [-8, 8, -8],
+              rotate: [-3, 3, -3],
+            }}
+            transition={{
+              opacity: { duration: 0.6, delay: oni.delay },
+              scale: { duration: 0.8, delay: oni.delay, type: "spring", stiffness: 200 },
+              y: { duration: 4 + index * 0.5, repeat: Infinity, ease: "easeInOut", delay: oni.delay + 1 },
+              x: { duration: 4 + index * 0.5, repeat: Infinity, ease: "easeInOut", delay: oni.delay + 1 },
+              rotate: { duration: 4 + index * 0.5, repeat: Infinity, ease: "easeInOut", delay: oni.delay + 1 },
+            }}
+            onClick={() => handleOniClick(oni.id)}
+            whileHover={{ 
+              scale: 1.2, 
+              opacity: 0.8,
+              transition: { duration: 0.2 }
+            }}
+            whileTap={{ 
+              scale: 0.9,
+              transition: { duration: 0.1 }
+            }}
+          />
+        ))}
 
       {/* タイトル */}
       <div className="relative text-center text-brown-800 px-4 max-w-4xl">
