@@ -52,5 +52,5 @@ export const specialPointQuestions: Question[] = [
   { specialResult: "ブレない心", specialResultMsg: "胃袋に一本の太い柱が立っている。", points: 0, question: "同じ食べ物をずっと食べ続けられる", image: "burenai.png" },
   { specialResult: "完食至上主義", specialResultMsg: "残すのは罪。食べ切るのが正義。", points: 0, question: "どんなにお腹いっぱいでも必ず完食する。", image: "kanshoku.png" },
   { specialResult: "カロリー計算機", specialResultMsg: "常に0キロカロリーを探している。", points: 0, question: "食事は常にカロリーを確認している。", image: "calorie.png" },
-  { specialResult: "愛酒家", specialResultMsg: "お酒あっての食事。", points: 0, question: "食事にはお酒がかかせない。", image: "sake.png" },
+  { specialResult: "愛酒家", specialResultMsg: "お酒あっての食事。ご飯はつまみ。", points: 0, question: "食事にはお酒がかかせない。", image: "sake.png" },
 ];

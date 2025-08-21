@@ -36,13 +36,13 @@ export function evaluateDiagnosis(answers: Answer[]): DiagnosisResult {
     .filter((answer) => answer.specialResult === "" && answer.value)
     .reduce((sum, answer) => sum + answer.points, 0);
 
-  if (totalPoints >= 10) {
+  if (totalPoints >= 11) {
     return {
-      title: "食べるために生きる人",
-      description: "美味しい食事を求めて今日も旅は続く。",
+      title: "真・食べるために生きる人",
+      description: "食の求道者。美味しい食事を求めて今日も旅は続く。",
       image: "taberu.png",
     };
-  } else if (totalPoints >= 7) {
+  } else if (totalPoints >= 6) {
     return {
       title: "食べるために生きる人",
       description: "食事が楽しみ。一日三回の小さな幸せ。",
@@ -56,7 +56,7 @@ export function evaluateDiagnosis(answers: Answer[]): DiagnosisResult {
     };
   } else {
     return {
-      title: "生きるために食べる人",
+      title: "真・生きるために食べる人",
       description: "食事は栄養補給。効率よく、健康に。",
       image: "ikiru.png",
     };
